@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bio Site</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #000000;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            padding: 2rem;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .name {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffffff, #cccccc, #ffffff);
+            background-size: 200% 200%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 2s ease-in-out infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes shine {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .typing-container {
+            height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .typing-text {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            min-height: 1.5em;
+            display: flex;
+            align-items: center;
+        }
+
+        .cursor {
+            display: inline-block;
+            background-color: white;
+            width: 2px;
+            height: 1.2em;
+            margin-left: 2px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .separator {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            margin: 2rem 0;
+        }
+
+        .discord-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .discord-avatar {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .discord-pfp {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .status-indicator {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid #000;
+        }
+
+        .status-online { background-color: #43b581; }
+        .status-idle { background-color: #faa61a; }
+        .status-dnd { background-color: #f04747; }
+        .status-offline { background-color: #747f8d; }
+
+        .discord-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .discord-global-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.25rem;
+        }
+
+        .discord-username {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 0.5rem;
+        }
+
+        .discord-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .discord-tag {
+            background: rgba(88, 101, 242, 0.3);
+            color: #7289da;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid rgba(88, 101, 242, 0.5);
+        }
+
+        .custom-status {
+            color: rgba(255, 255, 255, 0.8);
+            font-style: italic;
+            margin-bottom: 0.75rem;
+        }
+
+        .activity {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .spotify-logo {
+            width: 16px;
+            height: 16px;
+            fill: #1db954;
+        }
+
+        .activity {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .activity-title {
+            font-weight: 600;
+            color: white;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-details {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: particle-float 6s infinite linear;
+        }
+
+        @keyframes particle-float {
+            from {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .loading {
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .profile-section {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+            
+            .name {
+                font-size: 2.5rem;
+            }
+            
+            .typing-text {
+                font-size: 1rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <div class="profile-section">
+            <img src="https://cdn.discordapp.com/avatars/427907338394140673/137dd4e4ef83491c469db09bd09f4fdd.png?size=512" 
+                 alt="Profile Avatar" class="avatar" id="avatar">
+            
+            <div class="profile-info">
+                <h1 class="name" id="userName">Your Name</h1>
+                
+                <div class="typing-container">
+                    <div class="typing-text">
+                        <span id="text"></span>
+                        <span class="cursor"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <div class="discord-card">
+            <div class="discord-avatar">
+                <img src="https://cdn.discordapp.com/avatars/427907338394140673/137dd4e4ef83491c469db09bd09f4fdd.png?size=256" 
+                     alt="Discord Avatar" class="discord-pfp" id="discordPfp">
+                <div class="status-indicator status-dnd" id="statusIndicator"></div>
+            </div>
+            
+            <div class="discord-info">
+                <div class="discord-global-name" id="globalName">vince</div>
+                <div class="discord-username" id="discordUsername">@anotheraxiomlegalteam</div>
+                <div class="discord-tags" id="discordTags">
+                    <div class="discord-tag">Do Not Disturb</div>
+                </div>
+                <div id="customStatus"></div>
+                <div id="discordActivity"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const CONFIG = {
+            name: "Your Name",
+            discordUserId: "427907338394140673",
+            bioTexts: [
+                "Full Stack Developer",
+                "Open Source Enthusiast", 
+                "Coffee Addict",
+                "Problem Solver",
+                "Tech Explorer"
+            ]
+        };
+
+        // Update basic info
+        document.getElementById('userName').textContent = CONFIG.name;
+
+        // Typing animation
+        class TypingAnimation {
+            constructor(element, texts, typeSpeed = 100, deleteSpeed = 50, pauseTime = 2000) {
+                this.element = element;
+                this.texts = texts;
+                this.typeSpeed = typeSpeed;
+                this.deleteSpeed = deleteSpeed;
+                this.pauseTime = pauseTime;
+                this.textIndex = 0;
+                this.charIndex = 0;
+                this.isDeleting = false;
+                this.start();
+            }
+
+            start() {
+                this.type();
+            }
+
+            type() {
+                const currentText = this.texts[this.textIndex];
+                
+                if (this.isDeleting) {
+                    this.element.textContent = currentText.substring(0, this.charIndex - 1);
+                    this.charIndex--;
+                } else {
+                    this.element.textContent = currentText.substring(0, this.charIndex + 1);
+                    this.charIndex++;
+                }
+
+                let typeSpeed = this.isDeleting ? this.deleteSpeed : this.typeSpeed;
+
+                if (!this.isDeleting && this.charIndex === currentText.length) {
+                    typeSpeed = this.pauseTime;
+                    this.isDeleting = true;
+                } else if (this.isDeleting && this.charIndex === 0) {
+                    this.isDeleting = false;
+                    this.textIndex = (this.textIndex + 1) % this.texts.length;
+                }
+
+                setTimeout(() => this.type(), typeSpeed);
+            }
+        }
+
+        // Initialize typing animation
+        const textElement = document.getElementById('text');
+        new TypingAnimation(textElement, CONFIG.bioTexts);
+
+        // Discord Lanyard integration
+        async function fetchDiscordPresence() {
+            const activityElement = document.getElementById('discordActivity');
+            const statusIndicator = document.getElementById('statusIndicator');
+            const globalNameElement = document.getElementById('globalName');
+            const usernameElement = document.getElementById('discordUsername');
+            const tagsElement = document.getElementById('discordTags');
+
+            try {
+                const response = await fetch(`https://api.lanyard.rest/v1/users/${CONFIG.discordUserId}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    const user = data.data;
+                    
+                    // Update user info
+                    globalNameElement.textContent = user.discord_user.global_name || user.discord_user.display_name;
+                    usernameElement.textContent = `@${user.discord_user.username}`;
+                    
+                    // Update status indicator
+                    statusIndicator.className = `status-indicator status-${user.discord_status}`;
+                    
+                    // Update tags
+                    tagsElement.innerHTML = '';
+                    
+                    const statusMap = {
+                        'online': 'Online',
+                        'idle': 'Away', 
+                        'dnd': 'Do Not Disturb',
+                        'offline': 'Offline'
+                    };
+                    
+                    const statusTag = document.createElement('div');
+                    statusTag.className = 'discord-tag';
+                    statusTag.textContent = statusMap[user.discord_status] || 'Unknown';
+                    tagsElement.appendChild(statusTag);
+                    
+                    // Add platform tags
+                    if (user.active_on_discord_desktop) {
+                        const tag = document.createElement('div');
+                        tag.className = 'discord-tag';
+                        tag.textContent = 'Desktop';
+                        tagsElement.appendChild(tag);
+                    }
+                    if (user.active_on_discord_web) {
+                        const tag = document.createElement('div');
+                        tag.className = 'discord-tag';
+                        tag.textContent = 'Web';
+                        tagsElement.appendChild(tag);
+                    }
+                    if (user.active_on_discord_mobile) {
+                        const tag = document.createElement('div');
+                        tag.className = 'discord-tag';
+                        tag.textContent = 'Mobile';
+                        tagsElement.appendChild(tag);
+                    }
+
+                    // Update activity
+                    activityElement.innerHTML = '';
+                    
+                    if (user.listening_to_spotify && user.spotify) {
+                        const activityDiv = document.createElement('div');
+                        activityDiv.className = 'activity';
+                        activityDiv.innerHTML = `
+                            <div class="activity-title">Listening to Spotify</div>
+                            <div class="activity-details">${user.spotify.song} by ${user.spotify.artist}</div>
+                        `;
+                        activityElement.appendChild(activityDiv);
+                    }
+                    
+                    if (user.activities && user.activities.length > 0) {
+                        user.activities.forEach(activity => {
+                            if (activity.type === 0) { // Playing
+                                const activityDiv = document.createElement('div');
+                                activityDiv.className = 'activity';
+                                
+                                let activityHtml = `<div class="activity-title">Playing ${activity.name}</div>`;
+                                
+                                if (activity.details) {
+                                    activityHtml += `<div class="activity-details">${activity.details}</div>`;
+                                }
+                                
+                                if (activity.state) {
+                                    activityHtml += `<div class="activity-details">${activity.state}</div>`;
+                                }
+                                
+                                activityDiv.innerHTML = activityHtml;
+                                activityElement.appendChild(activityDiv);
+                            } else if (activity.type === 4) { // Custom status
+                                const activityDiv = document.createElement('div');
+                                activityDiv.className = 'activity';
+                                
+                                activityDiv.innerHTML = `
+                                    <div class="activity-title">Status</div>
+                                    <div class="activity-details">${activity.state || activity.name}</div>
+                                `;
+                                
+                                activityElement.appendChild(activityDiv);
+                            }
+                        });
+                    }
+                } else {
+                    throw new Error('Failed to fetch Discord data');
+                }
+            } catch (error) {
+                console.error('Error fetching Discord presence:', error);
+                globalNameElement.textContent = "vince";
+                usernameElement.textContent = "@anotheraxiomlegalteam";
+                statusIndicator.className = "status-indicator status-offline";
+                tagsElement.innerHTML = '<div class="discord-tag">Offline</div>';
+                activityElement.innerHTML = '<div class="activity-details" style="text-align: center; color: rgba(255, 255, 255, 0.6);">Discord presence unavailable</div>';
+            }
+        }
+
+        // Particle system
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            const size = Math.random() * 4 + 2;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = Math.random() * 100 + '%';
+            
+            const duration = Math.random() * 3 + 3;
+            particle.style.animationDuration = duration + 's';
+            
+            document.getElementById('particles').appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, duration * 1000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fetch Discord presence
+            fetchDiscordPresence();
+            
+            // Update Discord presence every 30 seconds
+            setInterval(fetchDiscordPresence, 30000);
+            
+            // Create particles periodically
+            setInterval(createParticle, 300);
+            
+            // Initial burst of particles
+            for (let i = 0; i < 10; i++) {
+                setTimeout(createParticle, i * 100);
+            }
+        });
+    </script>
+</body>
+</html>
